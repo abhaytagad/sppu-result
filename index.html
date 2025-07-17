@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SPPU Result Portal</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #007bff;
+      margin-bottom: 25px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #loader {
+      display: none;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #007bff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 10px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      color: green;
+      text-align: center;
+    }
+
+    .refresh-row {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .refresh-row span {
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #007bff;
+    }
+
+    .refresh-row p {
+      margin: 5px 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>SPPU Result Lookup</h2>
+
+    <input type="text" id="seatNumber" placeholder="Enter Seat Number" required />
+    <input type="text" id="motherName" placeholder="Enter Mother's Name" required />
+
+    <div id="loader">
+      <div class="spinner"></div>
+      <div>⏳ Loading exams...</div>
+    </div>
+
+    <select id="examSelect" required>
+      <option value="">-- Select Exam --</option>
+    </select>
+
+    <input type="email" id="email" placeholder="Enter Email" required />
+
+    <div class="refresh-row">
+      <p>If the exam is not listed, click to refresh:</p>
+      <span onclick="loadExams()">&#x21bb;</span>
+    </div>
+
+    <button onclick="getResult()">Submit</button>
+
+    <div id="result"></div>
+  </div>
+
+</body>
+<script>
+  const patternMap = {};
+ 
+
+  async function loadExams() {
+    const loader = document.getElementById("loader");
+    loader.style.display = "block";
+    try {
+      const res = await fetch("http://localhost:8081/api/metadata/all");
+      if (!res.ok) throw new Error("Failed to fetch exams");
+
+      const exams = await res.json();
+      const select = document.getElementById("examSelect");
+
+      exams.forEach(exam => {
+        patternMap[exam.examName] = {
+          patternName: exam.patternName,
+          patternID: exam.patternId
+        };
+        const option = document.createElement("option");
+        option.value = exam.examName;
+        option.textContent = exam.examName;
+        select.appendChild(option);
+      });
+    } catch (err) {
+      document.getElementById("result").textContent =
+        "⚠️ Error loading exam list: " + err.message;
+    } finally {
+      loader.style.display = "none";
+    }
+  }
+   async function loadExamsFromDB() {
+    const loader = document.getElementById("loader");
+    loader.style.display = "block";
+    try {
+      const res = await fetch("http://localhost:8081/api/metadata/allfromdb");
+      if (!res.ok) throw new Error("Failed to fetch exams");
+
+      const exams = await res.json();
+      const select = document.getElementById("examSelect");
+
+      exams.forEach(exam => {
+        patternMap[exam.examName] = {
+          patternName: exam.patternName,
+          patternID: exam.patternId
+        };
+        const option = document.createElement("option");
+        option.value = exam.examName;
+        option.textContent = exam.examName;
+        select.appendChild(option);
+      });
+    } catch (err) {
+      document.getElementById("result").textContent =
+        "⚠️ Error loading exam list: " + err.message;
+    } finally {
+      loader.style.display = "none";
+    }
+  }
+
+
+  async function getResult() {
+    const seatNo = document.getElementById("seatNumber").value.trim();
+    const motherName = document.getElementById("motherName").value.trim();
+    const selectedExam = document.getElementById("examSelect").value;
+    const email = document.getElementById("email").value.trim();
+    const resultDiv = document.getElementById("result");
+
+
+    if (!seatNo || !motherName || !selectedExam || !email) {
+      resultDiv.textContent = "❌ Please fill all fields and refresh captcha.";
+      return;
+    }
+
+    const { patternName, patternID } = patternMap[selectedExam];
+
+    const payload = {
+      seatNo,
+      motherName,
+      patternName,
+      patternID,
+      email
+    };
+    console.log(payload
+    )
+    try {
+      const res = await fetch("http://localhost:8082/api/result/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) throw new Error("Server error");
+
+      
+      resultDiv.textContent = "✅ Result fetched successfully! It will get to your mail after sometime";
+     
+    } catch (err) {
+      resultDiv.textContent = "❌ Failed to send result request: " + err.message;
+    }
+  }
+
+  window.onload = async () => {
+    await loadExamsFromDB();
+  };
+</script>
+
+
+</body>
+</html>
