@@ -146,7 +146,7 @@
     const loader = document.getElementById("loader");
     loader.style.display = "block";
     try {
-      const res = await fetch("http://localhost:8081/api/metadata/all");
+      const res = await fetch("https://result-metadata.onrender.com/api/metadata/all");
       if (!res.ok) throw new Error("Failed to fetch exams");
 
       const exams = await res.json();
@@ -173,7 +173,7 @@
     const loader = document.getElementById("loader");
     loader.style.display = "block";
     try {
-      const res = await fetch("http://localhost:8081/api/metadata/allfromdb");
+      const res = await fetch("https://result-metadata.onrender.com/api/metadata/allfromdb");
       if (!res.ok) throw new Error("Failed to fetch exams");
 
       const exams = await res.json();
