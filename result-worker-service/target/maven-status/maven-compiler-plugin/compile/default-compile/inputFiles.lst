@@ -1,0 +1,7 @@
+D:\previousData\sppu-result\result-worker-service\src\main\java\com\example\result_worker_service\config\MailConfig.java
+D:\previousData\sppu-result\result-worker-service\src\main\java\com\example\result_worker_service\config\UnsafeRestTemplateConfig.java
+D:\previousData\sppu-result\result-worker-service\src\main\java\com\example\result_worker_service\consumer\ResultRequestConsumer.java
+D:\previousData\sppu-result\result-worker-service\src\main\java\com\example\result_worker_service\model\ResultRequest.java
+D:\previousData\sppu-result\result-worker-service\src\main\java\com\example\result_worker_service\ResultWorkerServiceApplication.java
+D:\previousData\sppu-result\result-worker-service\src\main\java\com\example\result_worker_service\service\EmailService.java
+D:\previousData\sppu-result\result-worker-service\src\main\java\com\example\result_worker_service\service\ResultFetcherService.java

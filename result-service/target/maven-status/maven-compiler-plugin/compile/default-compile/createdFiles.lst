@@ -1,0 +1,4 @@
+com\example\result_service\kafka\ResultRequestProducer.class
+com\example\result_service\ResultServiceApplication.class
+com\example\result_service\controller\ResultRequestController.class
+com\example\result_service\model\ResultRequest.class
