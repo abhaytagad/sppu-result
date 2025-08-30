@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 
 @RestController
 @RequestMapping("/api/result")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class ResultRequestController {
 
     @Autowired
@@ -20,7 +20,11 @@ public class ResultRequestController {
     ) {
         System.out.println(resultRequest.getEmail());
         System.out.println(resultRequest.getSeatNo());
-
+        System.out.println(resultRequest.getCaptchaText());
+        System.out.println(resultRequest.getMotherName());
+        System.out.println(resultRequest.getOrgCaptchaText());
+        System.out.println(resultRequest.getPatternID());
+        
 
         producer.sendResultRequest(resultRequest);
 

@@ -17,6 +17,9 @@ public class ResultRequest {
     private String patternID;
     private String email;
 
-    public ResultRequest() {}
+    // 🔹 New fields for captcha
+    private String captchaText;   // user-entered captcha text
+    private String orgCaptchaText;   // hash/code returned by backend
 
+    public ResultRequest() {}
 }

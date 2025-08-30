@@ -1,12 +1,13 @@
 package com.example.result_worker_service.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Setter
 @Getter
+@Setter
+@ToString
 @AllArgsConstructor
 public class ResultRequest {
 
@@ -16,8 +17,9 @@ public class ResultRequest {
     private String patternID;
     private String email;
 
+    // 🔹 New fields for captcha
+    private String captchaText;   // user-entered captcha text
+    private String orgCaptchaText;   // hash/code returned by backend
 
     public ResultRequest() {}
-
-
 }

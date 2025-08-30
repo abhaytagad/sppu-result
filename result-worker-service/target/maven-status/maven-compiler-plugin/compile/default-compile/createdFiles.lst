@@ -1,8 +1,8 @@
-com\example\result_worker_service\ResultWorkerServiceApplication.class
-com\example\result_worker_service\model\ResultRequest.class
-com\example\result_worker_service\consumer\ResultRequestConsumer.class
-com\example\result_worker_service\service\ResultFetcherService.class
-com\example\result_worker_service\config\MailConfig.class
-com\example\result_worker_service\config\UnsafeRestTemplateConfig.class
-com\example\result_worker_service\config\UnsafeRestTemplateConfig$1.class
-com\example\result_worker_service\service\EmailService.class
+com/example/result_worker_service/config/UnsafeRestTemplateConfig$1.class
+com/example/result_worker_service/service/ResultFetcherService.class
+com/example/result_worker_service/consumer/ResultRequestConsumer.class
+com/example/result_worker_service/ResultWorkerServiceApplication.class
+com/example/result_worker_service/config/UnsafeRestTemplateConfig.class
+com/example/result_worker_service/model/ResultRequest.class
+com/example/result_worker_service/config/MailConfig.class
+com/example/result_worker_service/service/EmailService.class

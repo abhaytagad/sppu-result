@@ -34,6 +34,8 @@ public class UnsafeRestTemplateConfig {
         // Disable hostname verification
         HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
 
+        
+
         return new RestTemplate();
     }
 }

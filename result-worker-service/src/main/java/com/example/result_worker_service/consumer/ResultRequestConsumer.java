@@ -19,7 +19,12 @@ public class ResultRequestConsumer {
 
     @KafkaListener(topics = "result-requests", groupId = "result-group")
     public void consume(ResultRequest request)  {
-
+        System.out.println(request.getEmail());
+        System.out.println(request.getSeatNo());
+        System.out.println(request.getCaptchaText());
+        System.out.println(request.getMotherName());
+        System.out.println(request.getOrgCaptchaText());
+        System.out.println(request.getPatternID());
         System.out.println("📩 Received request for: "+request.getSeatNo());
         try{
             fetcherService.fetchResult(request);

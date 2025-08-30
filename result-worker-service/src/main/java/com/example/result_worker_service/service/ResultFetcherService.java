@@ -27,8 +27,7 @@ public class ResultFetcherService {
     private EmailService emailService;
 
     public void fetchResult(ResultRequest request) throws Exception {
-
-
+        
         try {
             // Prepare form data
             MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
@@ -36,14 +35,15 @@ public class ResultFetcherService {
             formData.add("PatternName", request.getPatternName());
             formData.add("SeatNo", request.getSeatNo());
             formData.add("MotherName", request.getMotherName());
-            formData.add("OrgCaptchaText", "sVBQJgPf3Sq2/1FPpdhopA==");
+            formData.add("OrgCaptchaText", request.getOrgCaptchaText());
             formData.add("CaptchaImageSTR",CaptchaImageSTR );
-            formData.add("CaptchaText", "83631");
+            formData.add("CaptchaText", request.getCaptchaText());
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             headers.set("User-Agent", "Mozilla/5.0");
             headers.set("Referer", "https://onlineresults.unipune.ac.in/SPPU ONLINE RESULT DISPLAY");
+            
 
             HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(formData, headers);
 
